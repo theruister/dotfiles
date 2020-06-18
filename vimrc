@@ -33,7 +33,7 @@ set backspace=indent,eol,start
 
 
 set autoindent
-set smartindent
+" set smartindent
 filetype indent on
 
 set undodir=~/.vim/undodir
@@ -43,6 +43,7 @@ set incsearch
 
 
 call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'morhetz/gruvbox'
 Plug 'jremmen/vim-ripgrep'

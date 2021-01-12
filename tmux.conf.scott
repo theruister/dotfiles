@@ -1,0 +1,177 @@
+set -g default-terminal "screen-256color"
+set-option -g prefix C-u
+set-option -g history-limit 5000
+unbind-key C-b
+
+bind-key C-u last-window
+bind-key u send-prefix
+
+set -g base-index 0
+set -s escape-time 0
+ 
+# split panes using | and -
+unbind -
+unbind %
+bind | split-window -h
+bind \ split-window -v
+
+#bind - split-window -v
+
+## Remap copy mode to ^U[
+unbind [
+unbind "'"
+unbind '"'
+unbind =
+
+bind "'" run-shell "/home/scott/bin/swizzle -v"
+bind '"' run-shell "/home/scott/bin/swizzle -h"
+
+bind ^I copy-mode
+
+## Setup status line (green on black, date/time in SE corner)
+set -g status-bg black
+set -g status-fg green
+set -g status-left ""
+set -g status-right "#[fg=yellow,bold]%I:%M %m/%d"
+
+set-window-option -g window-status-current-bg black
+set-window-option -g window-status-current-fg white
+set-window-option -g mode-bg green
+set-window-option -g window-status-format "#I:#W#[fg=red,bold]#F"
+
+## The following enables S-Left, S-Right...etc.
+set-window-option -g xterm-keys on
+
+set -g message-bg green
+set -g message-fg black
+set -g pane-active-border-fg yellow
+set -g pane-border-fg green
+
+# don't rename windows automatically
+set-option -g allow-rename off
+
+bind J command-prompt -p "join pane from:"  "join-pane -h -s '%%'"
+bind P command-prompt -p "put into pane:"  "join-pane -h -t '%%'"
+bind X choose-window "join-pane -s '%%'"
+
+#bind J command-prompt "join-pane -t '%%'"
+
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+bind < resize-pane -L 10
+bind > resize-pane -R 10
+bind - resize-pane -U 10
+bind + resize-pane -D 10
+
+## New mapping
+bind -n C-Right next-window
+bind -n C-Left previous-window
+
+## Old mapping
+#bind -n S-Right next-window
+#bind -n S-Left previous-window
+
+bind i send-keys imagictv Enter
+bind w send-keys Wolffish2 Enter
+bind p send-keys ^sunshine3 Enter
+bind t send-keys titmouse Enter
+bind s send-keys ssh Space root@
+bind ^H send-keys 10.53.29.12
+bind ^S send-keys scott@10.53.29.12
+#bind = send-keys 172.17
+#bind + send-keys 172.16
+
+bind ^V paste-buffer
+bind y  paste-buffer
+
+bind m setw -g mode-mouse on
+bind M setw -g mode-mouse off
+
+bind r source-file ~/.tmux.conf
+
+
+## old bindings
+#bind-key          = choose-buffer
+#bind-key          ! break-pane
+#bind-key          # list-buffers
+#bind-key          $ command-prompt -I #S "rename-session '%%'"
+#bind-key          & confirm-before -p "kill-window #W? (y/n)" kill-window
+
+#unbind =
+#unbind !
+#unbind \#
+#unbind \$
+#unbind &
+#unbind (
+#unbind )
+
+## 
+bind-key         ^B choose-window
+bind-key          B choose-buffer
+bind-key          V choose-buffer
+bind-key          v choose-buffer
+bind-key         ^D confirm-before -p "kill-window #W? (y/n)" kill-window
+#bind-key          b command-prompt -p "break pane into what target window:" "break-pane -d -t %%"
+bind-key          b break-pane -d 
+#bind-key          R command-prompt -I #S "rename-session '%%'"
+#bind-key          P switch-client -p
+#bind-key          N switch-client -n
+
+
+## Remap shift-number row to facilitate jumping to windows > 10
+#bind-key          +  select-window -t :10
+bind-key          )  select-window -t :10
+bind-key          !  select-window -t :11
+bind-key          @  select-window -t :12
+bind-key         '#' select-window -t :13
+bind-key         '$' select-window -t :14
+bind-key          %  select-window -t :15
+bind-key          ^  select-window -t :16
+bind-key          &  select-window -t :17
+bind-key          *  select-window -t :18
+bind-key          (  select-window -t :19
+
+
+#bind-key          , command-prompt -I #W "rename-window '%%'"
+bind-key          . command-prompt "move-window -t '%%'"
+
+bind-key -t emacs-copy       b page-up
+bind-key -t emacs-copy       p page-up
+bind-key -t emacs-copy       / search-forward
+bind-key -t emacs-copy       ? search-backward
+bind-key -t emacs-copy       l cursor-right
+bind-key -t emacs-copy       h cursor-left
+bind-key -t emacs-copy       j cursor-down
+bind-key -t emacs-copy       k cursor-up
+
+new-session -s work -n hyd 
+new-window  -n noug    'ssh root@nougit'
+new-window  -n coco    'ssh root@coconut'
+new-window  -n bh1     'ssh -X root@10.51.152.51'
+new-window  -n moly    'ssh scott@info'
+#new-window  -n dock    'ssh root@coconut'
+
+#new-window  -n bl2/ftp 'ssh root@bl2'
+#new-window  -n bl3     'ssh root@bl3'
+#new-window  -n bl4     'ssh root@bl4'
+
+
+new-window  -n dock    'ssh root@dockwise'
+
+attach -t work
+select-window -t :0
+
+#set -g @plugin 'tmux-plugins/tpm'
+#set -g @plugin 'tmux-plugins/tmux-sensible'
+
+#run '~/.tmux/plugins/tpm/tpm'
+
+run ~/.tmux/plugins/tmux-copycat/copycat.tmux
+
+bind-key ^R run-shell /home/scott/.tmux/plugins/tmux-copycat/scripts/copycat_search.sh
+bind-key O run-shell "/home/scott/.tmux/plugins/tmux-copycat/scripts/copycat_mode_start.sh '^Offending key in .*'"
+bind-key F run-shell "/home/scott/.tmux/plugins/tmux-copycat/scripts/copycat_mode_start.sh '[[:alnum:]_.#$%&+=/@-]*'"
+bind-key G run-shell "/home/scott/.tmux/plugins/tmux-copycat/scripts/copycat_mode_start.sh 'git/[[:alnum:]_.#$%&+=/@-]*'"

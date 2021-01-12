@@ -5,6 +5,7 @@
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 autocmd BufEnter * lcd %:p:h
 
+" command :options to see more available options"
 set tabstop=4 softtabstop=4
 set noerrorbells
 set shiftwidth=4
@@ -17,6 +18,7 @@ set cursorline
 set lazyredraw 
 set showmatch
 set smartcase
+set hidden
 
 set noruler
 set laststatus=2
@@ -84,6 +86,7 @@ nnoremap <silent> <Leader>+ :vertical resize +5<CR>
 nnoremap <silent> <Leader>- :vertical resize -5<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+nnoremap <leader>vs :vsplit<CR>
 
 fun! GoYCM()
     nnoremap <buffer> <silent> <leader>gd :YcmCompleter GoTo<CR>
